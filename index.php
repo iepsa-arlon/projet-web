@@ -9,7 +9,7 @@ while(true) {
     }
 
     if ($choice == 1) {
-        $article_titre = choix_article($liste_article);
+        choix_article($liste_article);
     } elseif ($choice == 2) {
         $liste_article = redaction($liste_article);
     }

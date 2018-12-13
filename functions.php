@@ -26,6 +26,11 @@ function redaction($liste_article)
         $article_contenu .= $line;
     }
 
+    if (empty($article_contenu)) {
+        echo "Un article sans contenu n'est pas un article valide." .PHP_EOL;
+        return;
+    }
+
     $liste_article[$article_title] = $article_contenu;
 
     return $liste_article;
@@ -45,9 +50,12 @@ function choix_article($liste_article)
         echo "Quel article souhaitez-vous lire?
         Entrez votre choix (titre de l'article) : " .PHP_EOL;
         $article_title = readline();
+        if (!array_key_exists($article_title, $liste_article)){
+            echo "Nous n'avons pas cet article." .PHP_EOL;
+            return;
+        }
         display_article($article_title, $liste_article);
     }
-    return $article_title;
 }
 
 function display_article($nom_article, $liste_article)
