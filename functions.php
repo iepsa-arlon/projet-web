@@ -2,7 +2,7 @@
 
 function choice()
 {
-    echo "Bonjour! Que voulez-vous faire? 
+    echo "Que voulez-vous faire? 
     1.) Lire un article
     2.) Ecrire un article
     Entrez votre choix (1-2) : ";
@@ -10,26 +10,47 @@ function choice()
     return $line;
 }
 
-function input()
+function redaction($liste_article)
 {
+    echo "Entrez le titre de votre article : " .PHP_EOL;
+    while (empty($article_title)) {
+        $article_title = readline();
+    }
     echo "Entrez votre article : " .PHP_EOL;
-    $strName = "";
+    $article_contenu = "";
     while (true) {
         $line = fread(STDIN, 80);
         if (empty(trim($line))) {
             break;
         }
-
-        $strName .= $line;
+        $article_contenu .= $line;
     }
-    return $strName;
+
+    $liste_article[$article_title] = $article_contenu;
+
+    return $liste_article;
 }
 
-function display($result)
+function choix_article($liste_article)
 {
-    if (empty(trim($result))) {
-        echo "Ah bah bravo, feignant!";
+    if (empty($liste_article)) {
+        echo "Nous n'avons pas encore d'article, écrivez-en un !" .PHP_EOL;
+        return;
     } else {
-        echo 'Votre article:' .PHP_EOL, $result;
+        echo "Voici la liste des articles : " .PHP_EOL;
+        foreach($liste_article as $key=>$value)
+        {
+            echo $key .PHP_EOL;
+        }
+        echo "Quel article souhaitez-vous lire?
+        Entrez votre choix (titre de l'article) : " .PHP_EOL;
+        $article_title = readline();
+        display_article($article_title, $liste_article);
     }
+    return $article_title;
+}
+
+function display_article($nom_article, $liste_article)
+{
+    echo 'Votre article:' .PHP_EOL, $liste_article[$nom_article] .PHP_EOL;
 }

@@ -1,13 +1,17 @@
 <?php
 include 'functions.php';
 
-while ($choice != 1 && $choice != 2) {
-    $choice = choice();
-}
+echo "Bonjour!" .PHP_EOL;
 
-if ($choice == 1) {
-    echo "Voici la liste des articles : ";
-} elseif ($choice == 2) {
-    $result = input();
-    display($result);
+while(true) {
+    while ($choice != 1 && $choice != 2) {
+        $choice = choice();
+    }
+
+    if ($choice == 1) {
+        $article_titre = choix_article($liste_article);
+    } elseif ($choice == 2) {
+        $liste_article = redaction($liste_article);
+    }
+    $choice = 0;
 }
