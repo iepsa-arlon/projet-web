@@ -1,12 +1,18 @@
 <?php
 
-function intro()
+function choice()
 {
-    echo "Hello! What is your article (enter below):\n";
+    echo "Bonjour! Que voulez-vous faire? 
+    1.) Lire un article
+    2.) Ecrire un article
+    Entrez votre choix (1-2) : ";
+    $line = readline();
+    return $line;
 }
 
 function input()
 {
+    echo "Entrez votre article : " .PHP_EOL;
     $strName = "";
     while (true) {
         $line = fread(STDIN, 80);
@@ -24,6 +30,6 @@ function display($result)
     if (empty(trim($result))) {
         echo "Ah bah bravo, feignant!";
     } else {
-        echo 'Your article:' . PHP_EOL, $result;
+        echo 'Votre article:' .PHP_EOL, $result;
     }
 }
