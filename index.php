@@ -2,16 +2,23 @@
 include 'functions.php';
 
 echo "Bonjour!" .PHP_EOL;
-
-while(true) {
-    while ($choice != 1 && $choice != 2) {
-        $choice = choice();
+if(!isset($_GET["action"])) {
+    choice();
+} else {
+    $liste_article = [];
+    $choice = $_GET["action"];
+    if ($choice === "1") {
+        echo "choix article";
+        //choix_article($liste_article);
+    } elseif ($choice === "2") {
+        echo "redaction article";
+        //$liste_article = redaction($liste_article);
+    } elseif ($choice === "3") {
+        echo "wat";
+    } else {
+        echo "why?";
+        choice();
     }
-
-    if ($choice == 1) {
-        choix_article($liste_article);
-    } elseif ($choice == 2) {
-        $liste_article = redaction($liste_article);
-    }
-    $choice = 0;
 }
+
+
