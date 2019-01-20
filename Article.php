@@ -124,17 +124,6 @@ Class Article {
     {
         $this->category = $category;
     }
-
-    /**
-     * Fonction magique,
-     * utiliser "echo $article" m'appelle
-     *
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->contenu;
-    }
 }
 
 

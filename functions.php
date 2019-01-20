@@ -1,4 +1,5 @@
 <?php
+session_start();
 //include 'Article.php';
 /**
  * Controller
@@ -17,72 +18,68 @@ function choice(): void
         <?php
     }
 }
-//
-///**
-// * Controller
-// *
-// * @param array $liste_article
-// * @return array
-// */
-//function redaction(array $liste_article): array
-//{
-//    $article = new Article();
-//    echo "Entrez le titre de votre article : " . PHP_EOL;
-//    while (empty($article->getTitre())) {
-//        $article->setTitre(readline());
-//    }
-//
-//    echo "Entrez votre article : " . PHP_EOL;
-//
-//    while (true) {
-//        $line = fread(STDIN, 80);
-//        if (empty(trim($line))) {
-//            break;
-//        }
-//
-//        $article->addContenu($line);
-//    }
-//
-//    if (empty($article->getContenu())) {
-//        echo "Un article sans contenu n'est pas un article valide." . PHP_EOL;
-//        return [];
-//    }
-//
-//    $liste_article[] = $article;
-//
-//    return $liste_article;
-//}
-//
-///**
-// * controller
-// *
-// * @param $liste_article
-// */
-//function choix_article(array $liste_article)
-//{
-//    if (empty($liste_article)) {
-//        echo "Nous n'avons pas encore d'article, écrivez-en un !" . PHP_EOL;
-//        echo "Appuyez sur une touche pour continuer" . PHP_EOL;
-//        readline();
-//        return;
-//    }
-//
-//    echo "Voici la liste des articles : " . PHP_EOL;
-//    /** @var  Article $article */
-//    foreach ($liste_article as $index => $article) {
-//        echo $index . ') - ' . $article->getTitre() . PHP_EOL;
-//    }
-//
-//    echo "Quel article souhaitez-vous lire?
-//        Entrez votre choix (index de l'article) : " . PHP_EOL;
-//    $index = readline();
-//    if (!array_key_exists($index, $liste_article)) {
-//        echo "Nous n'avons pas cet article." . PHP_EOL;
-//        return;
-//    }
-//
-//    display_article($liste_article[$index]);
-//}
+
+/**
+ * Controller
+ *
+ * @param array $liste_article
+ * @return array
+ */
+function redaction()
+{
+    ?>
+        <form method="post">
+            <label>Titre:</label>
+            <input type="text" name="titre">
+            <br>
+            <label>Contenu:</label>
+            <br>
+            <textarea name="contenu"></textarea>
+            <button type="submit">Envoyer</button>
+        </form>
+        <a href="index.php">Retour à l'accueil</a>
+    <?php
+    if(isset($_POST["titre"]) && isset($_POST["contenu"])) {
+        include('Article.php');
+        $article = new Article();
+        $article->setTitre($_POST["titre"]);
+        $article->setContenu($_POST["contenu"]);
+        $_SESSION[$article->getTitre()] = $article->getContenu();
+    ?>
+        <p>Voici votre article:</p>
+        <h2><?= $article->getTitre(); ?></h2>
+        <p><?= $article->getContenu(); ?></p>
+    <?php
+    }
+}
+
+/**
+ * controller
+ */
+function choix_article()
+{
+    if (empty($_SESSION)) {
+        echo "Nous n'avons pas encore d'article, écrivez-en un !" . PHP_EOL;
+        echo '<a href="index.php">Retour à l\'accueil</a>';
+    }
+
+    echo "Voici la liste des articles : <br/>";
+    foreach ($_SESSION as $titre => $contenu) {
+        ?><br/><a href="index.php?action=1&titre=<?=$titre;?>"><?=$titre;?></a><br/><?php
+    }
+
+    if (isset($_GET["titre"])) {
+        echo "Voici l'article:";
+        $article = $_SESSION[$_GET["titre"]];
+
+        ?>
+            <br/>
+                <?= $article; ?>
+            <br/>
+        <?php
+    }
+    echo '<br/><a href="index.php">Retour à l\'accueil</a>';
+}
 //
 ///**
 // * @param Article $article
